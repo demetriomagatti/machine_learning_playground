@@ -1,6 +1,11 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 import seaborn as sns
+from tqdm.auto import tqdm
+from sklearn import tree
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
 from sklearn.metrics import confusion_matrix
 from imblearn.over_sampling import SMOTE
 
@@ -47,7 +52,7 @@ class TreeTester():
                                                                 test_size=1-self.train_size)
         # using model's guess as a feature
         if self.auto_train:
-            for j in range(self.added_features):
+            for j in tqdm(range(self.added_features)):
                 self.classifier.fit(X_train, y_train)
                 y_pred = self.classifier.predict(X_test)
                 X_train[f'pred_{j}'] = self.classifier.predict(X_train)==y_train
