@@ -69,6 +69,8 @@ class TreeTester():
         recall = []
         precision = []
         F1_measure = []
+        NPV = []
+        FNR = []
         for i in range(self.robustness_iterations):
             self.train()
             results = self.y_test.to_frame().rename(columns={self.target: "true_value"})
@@ -82,10 +84,14 @@ class TreeTester():
             accuracy.append((TP+TN)/(TP+TN+FP+FN))
             recall.append(TP/(TP+FN))
             precision.append(TP/(TP+FP))
+            NPV.append(TN/(TN+FN))
+            FNR.append(FN/(FN+TP))
             F1_measure.append(2*precision[-1]*recall[-1]/(precision[-1]+recall[-1]))
         self.evaluators['accuracy'] = accuracy
         self.evaluators['recall'] = recall
         self.evaluators['precision'] = precision
+        self.evaluators['NPV'] = NPV
+        self.evaluators['FNR'] = FNR
         self.evaluators['F1_measure'] = F1_measure
         self.evaluators = pd.DataFrame.from_dict(self.evaluators)
         
