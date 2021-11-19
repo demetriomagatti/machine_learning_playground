@@ -45,16 +45,16 @@ class TreeTester():
             X,y = oversample.fit_resample(X,y)
         # feature selection
         if self.features:
-            X_train, X_test, y_train, y_test = train_test_split(X[features], y, train_size=self.train_size,
+            X_train, X_test, y_train, y_test = train_test_split(X[self.features], y, train_size=self.train_size,
                                                                 test_size=1-self.train_size)
         else:
             X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=self.train_size,
                                                                 test_size=1-self.train_size)
         # using model's guess as a feature
         if self.auto_train:
-            for j in tqdm(range(self.added_features)):
+            for j in range(self.added_features):
                 self.classifier.fit(X_train, y_train)
-                y_pred = self.classifier.predict(X_test)
+                #y_pred = self.classifier.predict(X_test)     #unused?
                 X_train[f'pred_{j}'] = self.classifier.predict(X_train)==y_train
                 X_test[f'pred_{j}'] = self.classifier.predict(X_test)==y_test
         self.classifier.fit(X_train, y_train)
@@ -67,6 +67,7 @@ class TreeTester():
     def evaluate(self):
         accuracy = []
         recall = []
+        selectivity = []
         precision = []
         F1_measure = []
         NPV = []
@@ -83,12 +84,14 @@ class TreeTester():
             TN = cm[1][1]
             accuracy.append((TP+TN)/(TP+TN+FP+FN))
             recall.append(TP/(TP+FN))
+            selectivity.append(TN/(TN+FP))
             precision.append(TP/(TP+FP))
             NPV.append(TN/(TN+FN))
             FNR.append(FN/(FN+TP))
             F1_measure.append(2*precision[-1]*recall[-1]/(precision[-1]+recall[-1]))
         self.evaluators['accuracy'] = accuracy
         self.evaluators['recall'] = recall
+        self.evaluators['selectivity'] = selectivity
         self.evaluators['precision'] = precision
         self.evaluators['NPV'] = NPV
         self.evaluators['FNR'] = FNR
