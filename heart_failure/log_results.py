@@ -12,6 +12,8 @@ class Logger():
         self.forced_features = None
         self.train_size = 0.66
         self.robustness_iterations = 100
+        self.df_name = ''
+        self.query = ''
         # Update with provided parameters
         self.__dict__.update(kwargs)
     
@@ -19,14 +21,13 @@ class Logger():
     def update_log(self):
         line_info = {
             'auto_train': self.auto_train,
-            'n_features': self.added_features,
+            'added_features': self.added_features,
             'oversample': self.oversample,
             'forced_features': self.forced_features,
             'train_size': self.train_size,
             'robustness_iterations': self.robustness_iterations
             }        
         try:
-            book = load_workbook(self.excel_filepath)
             book = load_workbook(self.excel_filepath)
             writer = pd.ExcelWriter(self.excel_filepath, engine='openpyxl') 
             writer.book = book
@@ -38,5 +39,13 @@ class Logger():
 
             writer.save()
         except: 
-            print(f'{self.excel_filepath} not found. {self.excel_filepath} created.')
+            print('No test log file - creating one')
             pd.DataFrame([line_info]).to_excel(self.excel_filepath)
+            
+    
+    def find_row(self):
+        query_str = ''
+        for key in self.query.keys():
+            query_str = query_str + f'{key} == @self.query["{key}"] & ' 
+        log_df = pd.read_excel(self.excel_filepath).drop(['Unnamed: 0'],axis=1)
+        return log_df.query(query_str[:-2])
