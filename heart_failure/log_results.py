@@ -25,7 +25,8 @@ class Logger():
             'oversample': self.oversample,
             'forced_features': self.forced_features,
             'train_size': self.train_size,
-            'robustness_iterations': self.robustness_iterations
+            'robustness_iterations': self.robustness_iterations,
+            'results_df': self.df_name
             }        
         try:
             book = load_workbook(self.excel_filepath)
