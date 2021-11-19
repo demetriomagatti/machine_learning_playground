@@ -9,7 +9,7 @@ class Logger():
         self.auto_train = False
         self.added_features = 0
         self.oversample = False
-        self.forced_features = None
+        self.features = None
         self.train_size = 0.66
         self.robustness_iterations = 100
         self.df_name = ''
@@ -23,7 +23,7 @@ class Logger():
             'auto_train': self.auto_train,
             'added_features': self.added_features,
             'oversample': self.oversample,
-            'forced_features': self.forced_features,
+            'features': self.features,
             'train_size': self.train_size,
             'robustness_iterations': self.robustness_iterations,
             'results_df': self.df_name
