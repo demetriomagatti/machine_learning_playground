@@ -8,7 +8,7 @@ class Logger():
 
     Arguments:
         excel_filepath: path to the excel file to look for/create/write results in;
-        test routine specifics (auto_train, added_features, ...)
+        test routine specifics (auto_train, added_features, ...).
     '''
     def __init__(self,*args,**kwargs):
         # Set default parameters

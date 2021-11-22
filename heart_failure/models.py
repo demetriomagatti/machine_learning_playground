@@ -70,9 +70,8 @@ class TreeTester():
         if self.auto_train:
             for j in range(self.added_features):
                 self.classifier.fit(X_train, y_train)
-                #y_pred = self.classifier.predict(X_test)     #unused?
-                X_train[f'pred_{j}'] = self.classifier.predict(X_train)==y_train
-                X_test[f'pred_{j}'] = self.classifier.predict(X_test)==y_test
+                X_train[f'pred_{j}'] = self.classifier.predict(X_train)
+                X_test[f'pred_{j}'] = self.classifier.predict(X_test)
         self.classifier.fit(X_train, y_train)
         self.X_train = X_train
         self.X_test = X_test
