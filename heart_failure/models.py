@@ -11,6 +11,19 @@ from imblearn.over_sampling import SMOTE
 
 
 class TreeTester():
+    '''
+    Object for train and test of a decision tree model.
+    
+    Arguments:
+        features (list of strings): list of features to use as predictors (['feature0','feature1',...,]);
+        train_size (float): fraction of dataset to use for train purposes;
+        robustness_iteration (int): number of different train and test routines to do with a fixed configuration;
+        auto_train (bool): boolean flag; allows to use the model predictions as added features;
+        added_features (int): number of prediction routines to use ad added features;
+        oversample (bool): activate/deactive oversampling with SMOTE technique;
+        data (pandas DataFrame): original dataset
+        target (string): target column.
+    '''
     def __init__(self,*args,**kwargs):
         # Set default parameters
         self.features = None
@@ -37,6 +50,9 @@ class TreeTester():
         
         
     def train(self):
+        '''
+        Single train and test of the model.
+        '''
         # oversampling, if needed
         X = self.X
         y = self.y
@@ -65,6 +81,9 @@ class TreeTester():
         
         
     def evaluate(self):
+        '''
+        Constructs evaluators to rate model's performance.
+        '''
         accuracy = []
         recall = []
         selectivity = []
@@ -100,6 +119,9 @@ class TreeTester():
         
     
     def plot_results(self):
+        '''
+        Simple box-and-whiskers plot.
+        '''
         fig,ax = plt.subplots()
         sns.boxplot(x="variable", y="value", data=pd.melt(self.evaluators))
         return
