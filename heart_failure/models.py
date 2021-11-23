@@ -40,6 +40,7 @@ class TreeTester():
         self.y_pred = pd.DataFrame() 
         self.target = ''
         self.classifier = tree.DecisionTreeClassifier()
+        self.classifier_auto = tree.DecisionTreeClassifier()
         # Update with provided parameters
         self.__dict__.update(kwargs)
         # Actual initialization
@@ -70,8 +71,9 @@ class TreeTester():
         if self.auto_train:
             for j in range(self.added_features):
                 self.classifier.fit(X_train, y_train)
-                X_train[f'pred_{j}'] = self.classifier.predict(X_train)
-                X_test[f'pred_{j}'] = self.classifier.predict(X_test)
+                self.classifier_auto.fit(X_train, self.classifier.predict(X_train)==y_train)
+                X_train[f'pred_{j}'] = self.classifier.predict(X_train)==y_train
+                X_test[f'pred_{j}'] = self.classifier_auto.predict(X_test)
         self.classifier.fit(X_train, y_train)
         self.X_train = X_train
         self.X_test = X_test
