@@ -12,7 +12,7 @@ from imblearn.over_sampling import SMOTE
 
 class TreeTester():
     '''
-    Object for train and test of a decision tree model.
+    Object for training and testing a decision tree model.
     
     Arguments:
         features (list of strings): list of features to use as predictors (['feature0','feature1',...,]);
@@ -98,10 +98,10 @@ class TreeTester():
             self.y_pred = self.classifier.predict(self.X_test)
             results['predicted'] = self.y_pred
             cm = confusion_matrix(results.query('index<@self.original_rows').true_value,results.query('index<@self.original_rows').predicted)
-            TP = cm[0][0]
+            TN = cm[0][0]
             FP = cm[0][1]
             FN = cm[1][0]
-            TN = cm[1][1]
+            TP = cm[1][1]
             accuracy.append((TP+TN)/(TP+TN+FP+FN))
             recall.append(TP/(TP+FN))
             selectivity.append(TN/(TN+FP))
