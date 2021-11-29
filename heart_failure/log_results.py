@@ -18,6 +18,7 @@ class Logger():
         self.oversample = False
         self.features = None
         self.train_size = 0.66
+        self.stratify = False
         self.robustness_iterations = 100
         self.df_results = pd.DataFrame()
         self.df_name = ''
@@ -36,6 +37,7 @@ class Logger():
             'oversample': self.oversample,
             'features': self.features,
             'train_size': self.train_size,
+            'stratified': self.stratify,
             'robustness_iterations': self.robustness_iterations,
             'results_df': self.df_name
             }

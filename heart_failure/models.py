@@ -32,6 +32,7 @@ class TreeTester():
         self.auto_train = False
         self.added_features = 0
         self.oversample = False
+        self.stratify = False
         self.data = pd.DataFrame()
         self.X_train = pd.DataFrame() 
         self.X_test = pd.DataFrame() 
@@ -60,13 +61,21 @@ class TreeTester():
         if self.oversample:
             oversample = SMOTE()
             X,y = oversample.fit_resample(X,y)
-        # feature selection
-        if self.features:
-            X_train, X_test, y_train, y_test = train_test_split(X[self.features], y, train_size=self.train_size,
-                                                                test_size=1-self.train_size)
+        # train-test split
+        if self.stratify:
+            if self.features:
+                X_train, X_test, y_train, y_test = train_test_split(X[self.features], y, stratify=y, train_size=self.train_size,
+                                                                    test_size=1-self.train_size)
+            else:
+                X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, train_size=self.train_size,
+                                                                    test_size=1-self.train_size)
         else:
-            X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=self.train_size,
-                                                                test_size=1-self.train_size)
+            if self.features:
+                X_train, X_test, y_train, y_test = train_test_split(X[self.features], y, train_size=self.train_size,
+                                                                    test_size=1-self.train_size)
+            else:
+                X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=self.train_size,
+                                                                    test_size=1-self.train_size)
         # using model's guess as a feature
         if self.auto_train:
             for j in range(self.added_features):
