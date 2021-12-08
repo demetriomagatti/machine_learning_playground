@@ -18,3 +18,5 @@ def encode_target(df, target_column):
     df_mod["Target"] = df_mod[target_column].replace(map_to_int)
 
     return (df_mod, targets)
+
+#just adding a comment line to check correct Git installation on personal laptop
